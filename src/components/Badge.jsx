@@ -1,17 +1,18 @@
 export default function Badge({ value }) {
-  const v = value || "-";
+  const v = (value || "-").toLowerCase();
 
   const style =
     v === "critique"
-      ? "bg-red-100 text-red-700 ring-red-200"
+      ? "bg-red-500 text-white shadow-red-100"
       : v === "moyenne"
-      ? "bg-orange-100 text-orange-700 ring-orange-200"
+      ? "bg-amber-500 text-white shadow-amber-100"
       : v === "faible"
-      ? "bg-emerald-100 text-emerald-700 ring-emerald-200"
-      : "bg-slate-100 text-slate-600 ring-slate-200";
+      ? "bg-emerald-500 text-white shadow-emerald-100"
+      : "bg-slate-500 text-white shadow-slate-100";
 
   return (
-    <span className={`rounded-full px-3 py-1 text-xs font-bold ring-1 ${style}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[10px] font-black uppercase tracking-wider shadow-sm transition-all hover:scale-105 ${style}`}>
+      <span className="h-1.5 w-1.5 rounded-full bg-white animate-pulse"></span>
       {v}
     </span>
   );

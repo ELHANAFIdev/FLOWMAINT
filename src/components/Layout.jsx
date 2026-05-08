@@ -3,15 +3,17 @@ import NotificationsPanel from "./NotificationsPanel";
 
 export default function Layout({ children, notifications = [], page, setPage }) {
   return (
-    <div className="flex min-h-screen w-full overflow-hidden bg-slate-100 text-slate-900">
+    <div className="flex h-screen w-full overflow-hidden bg-[#F8FAFC] text-slate-900 font-sans">
       <Sidebar
         page={page}
         setPage={setPage}
         notificationsCount={notifications.length}
       />
 
-      <main className="min-h-screen flex-1 overflow-y-auto overflow-x-hidden p-4 md:p-6">
-        {children}
+      <main className="relative flex-1 overflow-y-auto px-6 py-8 md:px-10">
+        <div className="mx-auto max-w-7xl">
+          {children}
+        </div>
       </main>
 
       <NotificationsPanel notifications={notifications} />

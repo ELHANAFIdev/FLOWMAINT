@@ -1,1 +1,7 @@
 @import "tailwindcss";
+
+.pdf-safe * {
+  color: #0f172a !important;
+  background-color: #ffffff !important;
+  border-color: #e5e7eb !important;
+}

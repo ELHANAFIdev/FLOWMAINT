@@ -3,6 +3,7 @@ import { getSheetData } from "./services/sheetApi";
 import Layout from "./components/Layout";
 import DashboardHome from "./components/DashboardHome";
 import MachineDetails from "./components/MachineDetails";
+import InterventionsTable from "./components/InterventionsTable";
 
 export default function App() {
   const [data, setData] = useState([]);
@@ -27,27 +28,27 @@ export default function App() {
         };
 
         return {
-          Decision_ID: findValue("Decision"),
-          Timestamp: findValue("Timestamp"),
-          Ticket_ID: findValue("Ticket"),
-          Machine: findValue("Machine"),
-          Line: findValue("Line"),
-          Criticite: findValue("Criticité") || findValue("Crit"),
-          Score: Number(findValue("Score") || 0),
-          Downtime_min: Number(findValue("Downtime") || 0),
-          Technician: findValue("Technician") || findValue("Techn"),
-          Part_Needed: findValue("Part_Needed"),
+          Decision_ID: findValue("intervention_id") || findValue("Decision"),
+          Timestamp: findValue("updated_at") || findValue("Timestamp"),
+          Ticket_ID: findValue("ticket_id") || findValue("Ticket"),
+          Machine: findValue("machine_name") || findValue("Machine"),
+          Line: findValue("Line") || "Ligne 1",
+          Criticite: (findValue("criticite") || findValue("Criticité") || findValue("Crit")).toLowerCase(),
+          Score: Number(findValue("score_affectation") || findValue("Score") || 0),
+          Downtime_min: Number(findValue("downtime_min") || findValue("Downtime") || 0),
+          Technician: findValue("Technician") || findValue("Techn") || "Equipe Tech",
+          Part_Needed: findValue("Part_Needed") || "Non spécifié",
           Part_Status:
             findValue("Part_Status") === "undefined"
               ? "Non défini"
-              : findValue("Part_Status") || "Non défini",
+              : findValue("Part_Status") || "Disponible",
           Stock_Status:
             findValue("Stock_Status") === "undefined"
               ? "Non défini"
-              : findValue("Stock_Status") || "Non défini",
-          Cause: findValue("Cause"),
-          Recommendation: findValue("Recommendation") || findValue("Reco"),
-          Next_Action: findValue("Next_Action") || findValue("Next"),
+              : findValue("Stock_Status") || "En stock",
+          Cause: findValue("probable_cause") || findValue("Cause"),
+          Recommendation: findValue("Recommendation") || findValue("Reco") || "Vérification standard",
+          Next_Action: findValue("Next_Action") || findValue("Next") || "Suivi normal",
         };
       });
 
@@ -115,26 +116,53 @@ export default function App() {
     )
     .slice(0, 8);
 
+  const renderContent = () => {
+    if (selectedMachine) {
+      return (
+        <MachineDetails
+          machine={selectedMachine}
+          data={data}
+          lastUpdate={lastUpdate}
+          onBack={() => setSelectedMachine(null)}
+        />
+      );
+    }
+
+    switch (page) {
+      case "dashboard":
+        return (
+          <DashboardHome
+            data={data}
+            machines={machines}
+            lastUpdate={lastUpdate}
+            loading={loading}
+            page={page}
+            onRefresh={loadData}
+            onSelectMachine={setSelectedMachine}
+          />
+        );
+      case "tickets":
+      case "machines":
+        return <InterventionsTable data={data} />;
+      default:
+        return (
+          <div className="flex flex-col items-center justify-center h-[60vh] text-slate-400">
+            <Activity size={48} className="mb-4 opacity-20" />
+            <p className="text-xl font-bold">Page en cours de développement</p>
+            <button 
+              onClick={() => setPage("dashboard")}
+              className="mt-4 px-6 py-2 bg-blue-600 text-white rounded-xl font-bold"
+            >
+              Retour au Dashboard
+            </button>
+          </div>
+        );
+    }
+  };
+
   return (
-  <Layout notifications={notifications} page={page} setPage={setPage}>
-    {selectedMachine ? (
-      <MachineDetails
-        machine={selectedMachine}
-        data={data}
-        lastUpdate={lastUpdate}
-        onBack={() => setSelectedMachine(null)}
-      />
-    ) : (
-      <DashboardHome
-        data={data}
-        machines={machines}
-        lastUpdate={lastUpdate}
-        loading={loading}
-        page={page}
-        onRefresh={loadData}
-        onSelectMachine={setSelectedMachine}
-      />
-    )}
-  </Layout>
-);
+    <Layout notifications={notifications} page={page} setPage={setPage}>
+      {renderContent()}
+    </Layout>
+  );
 }
