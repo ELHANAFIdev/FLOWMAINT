@@ -33,7 +33,13 @@ export default function App() {
           Ticket_ID: findValue("ticket_id") || findValue("Ticket"),
           Machine: findValue("machine_name") || findValue("Machine"),
           Line: findValue("Line") || "Ligne 1",
-          Criticite: (findValue("criticite") || findValue("Criticité") || findValue("Crit")).toLowerCase(),
+          Criticite: (() => {
+            const v = (findValue("criticite") || findValue("Criticité") || findValue("Crit")).toLowerCase();
+            if (v === "critique" || v === "high") return "high";
+            if (v === "moyenne" || v === "medium") return "medium";
+            if (v === "faible" || v === "low") return "low";
+            return v || "low";
+          })(),
           Score: Number(findValue("score_affectation") || findValue("Score") || 0),
           Downtime_min: Number(findValue("downtime_min") || findValue("Downtime") || 0),
           Technician: findValue("Technician") || findValue("Techn") || "Equipe Tech",
@@ -90,7 +96,7 @@ export default function App() {
       map[item.Machine].score += item.Score;
       map[item.Machine].rows.push(item);
 
-      if (item.Criticite === "critique") {
+      if (item.Criticite === "high") {
         map[item.Machine].critical += 1;
       }
 
@@ -108,8 +114,8 @@ export default function App() {
   const notifications = data
     .filter(
       (d) =>
-        d.Criticite === "critique" ||
-        d.Criticite === "moyenne" ||
+        d.Criticite === "high" ||
+        d.Criticite === "medium" ||
         d.Score >= 75 ||
         d.Part_Status === "non_disponible" ||
         d.Stock_Status === "bloque_attente_solution"

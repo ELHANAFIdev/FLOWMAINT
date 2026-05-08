@@ -4,7 +4,7 @@ export default function SmartAlerts({ data }) {
   const alerts = data
     .filter(
       (d) =>
-        d.Criticite === "critique" ||
+        d.Criticite === "high" ||
         d.Score >= 75 ||
         d.Part_Status === "non_disponible" ||
         d.Stock_Status === "bloque_attente_solution"
@@ -21,7 +21,7 @@ export default function SmartAlerts({ data }) {
             <div className="h-2 w-2 rounded-full bg-red-500 animate-ping"></div>
             <h2 className="text-xl font-black tracking-tight">Diagnostic <span className="text-red-500">Intelligent</span></h2>
           </div>
-          <p className="mt-1 text-sm font-medium text-slate-400 text-slate-500">Alertes critiques détectées par l'IA</p>
+          <p className="mt-1 text-sm font-medium text-slate-400 text-slate-500">Alertes High Priority détectées par l'IA</p>
         </div>
 
         <div className="flex items-center gap-2 rounded-full bg-red-500/20 px-4 py-1.5 text-xs font-black text-red-500 ring-1 ring-red-500/50">
@@ -69,7 +69,7 @@ export default function SmartAlerts({ data }) {
 
         {alerts.length === 0 && (
           <div className="col-span-full py-8 text-center border-2 border-dashed border-white/5 rounded-2xl">
-            <p className="text-sm font-bold text-slate-500">Aucune anomalie critique détectée à cet instant.</p>
+            <p className="text-sm font-bold text-slate-500">Aucune anomalie High Priority détectée à cet instant.</p>
           </div>
         )}
       </div>

@@ -14,7 +14,7 @@ export default function NotificationsPanel({ notifications }) {
 
       <div className="space-y-4">
         {notifications.length === 0 && (
-          <p className="text-sm text-slate-500">Aucune notification critique.</p>
+          <p className="text-sm text-slate-500">Aucune notification prioritaire.</p>
         )}
 
         {notifications.map((n, i) => (
@@ -25,7 +25,7 @@ export default function NotificationsPanel({ notifications }) {
             <div className="flex gap-3">
               <div
                 className={`mt-1 h-3 w-3 rounded-full ${
-                  n.Criticite === "critique" ? "bg-red-500" : "bg-orange-400"
+                  n.Criticite === "high" ? "bg-red-500" : "bg-orange-400"
                 }`}
               />
 

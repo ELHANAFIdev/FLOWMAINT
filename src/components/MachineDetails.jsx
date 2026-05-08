@@ -118,7 +118,7 @@ export default function MachineDetails({ machine, data, lastUpdate, onBack }) {
     y += 6;
     pdf.text(`Tickets: ${machine.tickets}`, 10, y);
     y += 6;
-    pdf.text(`Critiques: ${machine.critical}`, 10, y);
+    pdf.text(`High: ${machine.critical}`, 10, y);
 
     y += 10;
 
@@ -234,7 +234,7 @@ export default function MachineDetails({ machine, data, lastUpdate, onBack }) {
             icon={<Activity />}
           />
           <KpiCard
-            title="Critiques"
+            title="High Priority"
             value={machine.critical}
             icon={<AlertTriangle />}
             danger

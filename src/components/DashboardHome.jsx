@@ -44,7 +44,7 @@ export default function DashboardHome({
 
   const totalTickets = data.length;
   const totalMachines = machines.length;
-  const criticalTickets = data.filter((d) => d.Criticite === "critique").length;
+  const criticalTickets = data.filter((d) => d.Criticite === "high").length;
   const totalDowntime = data.reduce((s, d) => s + d.Downtime_min, 0);
 
   const avgScore = totalTickets
@@ -111,7 +111,7 @@ export default function DashboardHome({
       <div className="grid grid-cols-1 gap-5 md:grid-cols-2 lg:grid-cols-4">
         <KpiCard title="Machines Actives" value={totalMachines} icon={<Factory size={22} />} />
         <KpiCard title="Total Interventions" value={totalTickets} icon={<Activity size={22} />} />
-        <KpiCard title="Alertes Critiques" value={criticalTickets} icon={<AlertTriangle size={22} />} danger />
+        <KpiCard title="Alertes High Priority" value={criticalTickets} icon={<AlertTriangle size={22} />} danger />
         <KpiCard title="Score Global" value={`${avgScore}%`} icon={<Gauge size={22} />} />
         <KpiCard title="Temps d'Arrêt Total" value={`${totalDowntime} min`} icon={<Wrench size={22} />} />
         <KpiCard title="MTTR Moyen" value={`${avgDowntime} min`} icon={<Gauge size={22} />} />
@@ -204,9 +204,9 @@ export default function DashboardHome({
             className="rounded-2xl border-none bg-slate-50 px-6 py-4 text-sm font-bold outline-none ring-1 ring-slate-200 transition focus:bg-white focus:ring-2 focus:ring-blue-500"
           >
             <option value="all">Tous les niveaux</option>
-            <option value="critique">🔴 Critique</option>
-            <option value="moyenne">🟠 Moyenne</option>
-            <option value="faible">🟢 Faible</option>
+            <option value="high">🔴 High</option>
+            <option value="medium">🟠 Medium</option>
+            <option value="low">🟢 Low</option>
           </select>
         </div>
       </div>

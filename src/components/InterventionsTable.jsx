@@ -28,7 +28,7 @@ export default function InterventionsTable({ data }) {
           
           <div className="mt-6 flex flex-wrap gap-4">
             <StatMini icon={<Activity size={14}/>} label="Total" value={data.length} color="bg-blue-500"/>
-            <StatMini icon={<AlertCircle size={14}/>} label="Critiques" value={data.filter(d => d.Criticite === 'critique').length} color="bg-red-500"/>
+            <StatMini icon={<AlertCircle size={14}/>} label="High" value={data.filter(d => d.Criticite === 'high').length} color="bg-red-500"/>
             <StatMini icon={<Clock size={14}/>} label="Downtime Total" value={`${data.reduce((s,d) => s + d.Downtime_min, 0)} min`} color="bg-amber-500"/>
           </div>
         </div>
@@ -51,9 +51,9 @@ export default function InterventionsTable({ data }) {
           className="rounded-2xl border-none bg-white px-6 py-4 text-sm font-bold outline-none ring-1 ring-slate-200 shadow-sm transition focus:ring-2 focus:ring-blue-500"
         >
           <option value="all">Toutes les criticités</option>
-          <option value="critique">🔴 Critique</option>
-          <option value="moyenne">🟠 Moyenne</option>
-          <option value="faible">🟢 Faible</option>
+          <option value="high">🔴 High</option>
+          <option value="medium">🟠 Medium</option>
+          <option value="low">🟢 Low</option>
         </select>
       </div>
 
